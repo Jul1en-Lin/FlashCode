@@ -1,0 +1,24 @@
+package com.lien.file.entity.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *  AliYun OSS V4 前端直传签名必传参数
+ */
+@Getter
+@Setter
+public class SignDTO {
+
+    private String signature;
+
+    private String host;
+
+    private String pathPrefix;
+
+    private String xOSSCredential;
+
+    private String xOSSDate;
+
+    private String policy;
+}

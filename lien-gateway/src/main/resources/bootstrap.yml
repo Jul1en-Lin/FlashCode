@@ -1,0 +1,36 @@
+spring:
+  # Gateway 使用 WebFlux；保留 Servlet 依赖时要采用 Reactive 应用类型。
+  main:
+    web-application-type: reactive
+  application:
+    name: lien-gateway
+  profiles:
+    active: ${RUN_ENV}
+  # 在 nacos 的 flashcode-${RUN_ENV} 空间下的寻找名为 lien-gateway-${RUN_ENV} 的 yaml 配置文件
+  cloud:
+    nacos:
+      discovery:
+        username: ${NACOS_USERNAME}
+        password: ${NACOS_PASSWORD}
+        namespace: flashcode-${RUN_ENV}
+        server-addr: ${NACOS_ADDR}
+      config:
+        username: ${NACOS_USERNAME}
+        password: ${NACOS_PASSWORD}
+        namespace: flashcode-${RUN_ENV}
+        server-addr: ${NACOS_ADDR}
+        file-extension: yaml
+        # 共享配置
+        shared-configs:
+          - data-id: share-redis-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: share-mysql-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: share-map-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: share-rabbitmq-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+
+logging:
+  pattern:
+    console: '[%thread] %-5level %logger{36} - %msg%n'
